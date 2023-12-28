@@ -4,23 +4,27 @@ import { processError, sendErrorResponse } from '@/utils/error-handler';
 import { getRequestParams } from '@/utils/get-req-params';
 
 interface Params {
-    email: string;
-    firstName: string;
-    lastName: string;
+    id: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
     isAdmin?: boolean;
 }
 
 /**
- * Adds a new user to the system.
+ * Updates a user.
  *
  * @param req - The request object.
  * @param res - The response object.
  * @returns A Promise that resolves to void.
  */
-export const addUser = async (req: Request, res: Response): Promise<void> => {
+export const updateUser = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     try {
-        // Validate the request body.
         const {
+            id,
             email,
             firstName,
             lastName,
@@ -30,16 +34,8 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
             params: ['id', 'email', 'firstName', 'lastName', 'isAdmin'],
         });
 
-        const userExists = await userQueries.findUser({
-            email,
-        });
-
-        if (userExists) {
-            throw new Error('User already exists');
-        }
-
         const user = await userQueries
-            .createUser({ email, firstName, lastName, isAdmin })
+            .updateUser({ email, firstName, lastName, id, isAdmin })
             .catch((err) => {
                 throw new Error(err.message);
             });
@@ -53,7 +49,7 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
             info: {
                 requestBody: req.body,
             },
-            errorMessage: 'Error adding user',
+            errorMessage: 'Error updating user',
             statusCode: 400,
         });
     }

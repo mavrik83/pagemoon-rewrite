@@ -5,10 +5,9 @@ import { processError, sendErrorResponse } from '@/utils/error-handler';
 /**
  * Retrieves all users.
  *
- * @param {Request} req - The request object.
- * @param {Response} res - The response object.
- * @returns {Promise<void>} - A promise that resolves when the users are retrieved.
- * @throws {Error} - If there is an error retrieving the users.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns A Promise that resolves to void.
  */
 export const allUsers = async (req: Request, res: Response): Promise<void> => {
     try {
