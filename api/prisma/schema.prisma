@@ -48,7 +48,7 @@ enum LongFormContentType {
 
 model Tag {
   id        String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String
+  name      String            @unique
   createdAt DateTime?         @default(now()) @map("created_at")
   updatedAt DateTime?         @updatedAt @map("updated_at")
   user      User              @relation(fields: [userId], references: [id])
